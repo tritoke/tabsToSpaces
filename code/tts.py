@@ -15,6 +15,15 @@ try:
         else:
             output.append(i)
     open(args.file, "wb").write(bytes(output))
+    # remove trailing spaces
+    lines = open(args.file, "r").readlines()
+    out = []
+    for line in lines:
+        for i, char in enumerate(line):
+            if set(line[i:]) in [set([" ", "\n"]), set(["\n"])]:
+                out.append(line[:i])
+                break
+    open(args.file, "w").write("\n".join(out))
 except FileNotFoundError:
     print("file not found, try providing a full path")
 
